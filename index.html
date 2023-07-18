@@ -27,7 +27,7 @@
         <div id="div-cadastrar" class="div-cadastrar-inativo">
             <form action="">
                 <h2>Cadastro de Produto</h2>
-                <input type="text" id="id" name="id" readonly>
+                <input type="number" id="id" name="id" readonly>
                 <input type="text" placeholder="Digite o nome do produto" id="nome" name="nome">
                 <input type="number" placeholder="Digite o preço" id="preco" nome" name="preco">
                 <input type="button" value="Cadastrar Produto" id="btn-inserir" name="btn-inserir"
@@ -37,7 +37,7 @@
         <div id="div-editar" class="div-editar-inativo">
             <form action="">
                 <h2>Alteração de Produto</h2>
-                <input type="text" id="idEdit" name="idEdit" readonly>
+                <input type="number" id="idEdit" name="idEdit" readonly>
                 <input type="text" placeholder="Digite o nome do produto" id="nomeEdit" name="nomeEdit">
                 <input type="number" placeholder="Digite o preço" id="precoEdit" nome" name="precoEdit">
                 <input type="button" value="Alterar Produto" id="btn-salvar" name="btn-salvar"
@@ -58,22 +58,28 @@
 
         //crio uma variável tabela para trazer o elemento table utilizando o id dela
         const tabela = document.querySelector('#tabela');
+
+        //chamo as funções para limpar e atualizar a tabela:
         limpaTabela();
         getprodutos();
 
         function criaId() {
-            let ultimo = produtos.length;
+            //esta função irá criar um ID único
+            let ultimo = produtos.slice(-1)[0].id;
             console.log('o ultimo id cadastrado é: ' + ultimo);
 
-            proximo = ultimo + 1;
+            proximo = parseInt(ultimo) + 1;
             return proximo;
         }
 
         function limpaTabela() {
+            //limpa a tabela
             tabela.innerHTML = "<tr> <th>ID</th> <th>PRODUTO</th> <th>PREÇO</th>  <th>AÇÕES</th> </tr>";
         }
 
         function getprodutos() {
+            //função para atualizar a tabela (refresh)
+
             //loop mais externo forEach: irá percorrer os produtos
             produtos.forEach((produto) => {
 
@@ -109,8 +115,6 @@
                 td.appendChild(botaoApagar);
                 td.style.minWidth = '180px';
 
-
-
                 tr = document.querySelector("#" + 'a' + produto.id);
                 tr.appendChild(td);
 
@@ -120,6 +124,8 @@
         }
 
         function cadastrar() {
+            //esta funçãorealiza a inserção de um novo cadastro no objeto PRODUTOS
+
             //PASSO 1: pegando as informações que o usuario digitou e colocando em variaveis            
             const idInsere = document.querySelector('#id').value;
             const nomeInsere = document.querySelector('#nome').value;
@@ -127,7 +133,7 @@
 
             //PASSO 2: criando um novo objeto produto 
             let produto = {
-                id: idInsere,
+                id: parseInt(idInsere),
                 nome: nomeInsere,
                 preco: precoInsere
             }
@@ -147,6 +153,7 @@
         }
 
         function mostraCadastro() {
+            //mostra tela de cadastro
             const div = document.getElementById('div-cadastrar');
             if (div.classList.contains('div-cadastrar-inativo')) {
                 div.classList.remove('div-cadastrar-inativo');
@@ -156,12 +163,21 @@
                 div.classList.remove('div-cadastrar-ativo');
                 div.classList.add('div-cadastrar-inativo');
             }
+            //zera os valores
             document.getElementById('id').value = criaId();
             document.getElementById('nome').value = '';
             document.getElementById('preco').value = '';
+
+            //esconde tela de alteração
+            const divEditar = document.getElementById('div-editar');
+            if (divEditar.classList.contains('div-editar-ativo')) {
+                divEditar.classList.remove('div-editar-ativo');
+                divEditar.classList.add('div-editar-inativo');
+            }
         }
 
         function mostraEditar(idDoProdutoEdit) {
+            //mostra a tela de alteração 
             const div = document.getElementById('div-editar');
             if (div.classList.contains('div-editar-inativo')) {
                 div.classList.remove('div-editar-inativo');
@@ -174,24 +190,31 @@
 
 
             //filtrar o vetor produtos e pegar só aquele produto com aquela id
-            // let vetorProdutoEditar = produtos.filter(function (item) {
-            //     return item.id == idDoProdutoEdit;
-            // });
-            // let produtoEditar = vetorProdutoEditar[0];
+            let vetorProdutoEditar = produtos.filter(function (item) {
+                return item.id == idDoProdutoEdit;
+            });
+            let produtoEditar = vetorProdutoEditar[0];
 
             //outra forma:
-            let produtoEditar = produtos[idDoProdutoEdit - 1];
+            //let produtoEditar = produtos[idDoProdutoEdit - 1];
 
             //mostrar os dados nos campos
             document.getElementById('idEdit').value = produtoEditar.id;
             document.getElementById('nomeEdit').value = produtoEditar.nome;
             document.getElementById('precoEdit').value = produtoEditar.preco;
 
+            //esconde tela de inserção
+            const divCadastrar = document.getElementById('div-cadastrar');
+            if (divCadastrar.classList.contains('div-cadastrar-ativo')) {
+                divCadastrar.classList.remove('div-cadastrar-ativo');
+                divCadastrar.classList.add('div-cadastrar-inativo');
+            }
+
         }
 
         function salvarAlteracao() {
             //pegos os valores do campos
-            const idInsere = document.querySelector('#idEdit').value;
+            const idInsere = parseInt(document.querySelector('#idEdit').value);
             const nomeInsere = document.querySelector('#nomeEdit').value;
             const precoInsere = document.querySelector('#precoEdit').value;
 
@@ -209,8 +232,6 @@
             let div = document.getElementById('div-editar');
             div.classList.remove('div-editar-ativo');
             div.classList.add('div-editar-inativo');
-
-
         }
 
         function deleta(idDoProdutoDelete) {
