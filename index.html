@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">  
-
+    <link rel="stylesheet" href="style.css"> 
 </head>
 
 <body>
@@ -38,6 +37,7 @@
 
     <script>
 
+        //criando um array de objetos. cada objeto tem 3 propriedades, cada propriedade tem um valor
         let produtos =
             [
                 { id: 1, nome: 'sapato', preco: 100.00 },
@@ -52,6 +52,8 @@
         getprodutos(); 
 
         function getprodutos() {
+            //esta função irá listar os produtos na tabela, utilizando manipulação do DOM
+
             //loop mais externo forEach: irá percorrer os produtos
             produtos.forEach((produto) => {
                 
@@ -94,6 +96,8 @@
         }
 
         function cadastrar() {
+            //Esta função irá cadastrar um novo produto no array de produtos
+
             //PASSO 1: pegando as informações que o usuario digitou e colocando em variaveis
             const idInsere = document.querySelector('#id').value;
             const nomeInsere = document.querySelector('#nome').value;
@@ -139,6 +143,7 @@
         }
 
         function mostraCadastro() {
+            //mostra ou oculta a tela de cadastro quando o usuário clica no botão abaixo da tabela
             const div = document.getElementById('div-cadastrar');
             if (div.classList.contains('div-cadastrar-inativo')) {
                 div.classList.remove('div-cadastrar-inativo');
@@ -151,8 +156,8 @@
 
         }
 
-        function limpaTabela() {         
-
+        function limpaTabela() {     
+            //zera a tabela e deixa só o cabeçalho
              tabela.innerHTML = "<tr> <th>ID</th> <th>PRODUTO</th> <th>PREÇO</th>  <th>AÇÕES</th> </tr>" ;
         }
 
