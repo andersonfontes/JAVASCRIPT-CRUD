@@ -86,12 +86,12 @@
                     document.querySelector("#" + 'a' + produto.id).innerHTML += `<td> ${produto[propriedade]} </td>`;
                 }
                 //inserindo um botão de DELETE
-                let btnDeletar = `<td><button class=btn-apagar" onclick="delete({produto.id})">APAGAR</td>`
+                let btnDeletar = `<td><button class=btn-apagar" onclick="deleta({produto.id})">APAGAR</td>`
 
                 //primeiro criamos o BOTAO, aplicamos as propriedades e depois o criamos um TD pra ele                        
                 let botaoApagar = document.createElement('button');
                 botaoApagar.setAttribute('class', 'btn-apagar');
-                botaoApagar.setAttribute('onclick', 'delete({produto.id})');
+                botaoApagar.setAttribute('onclick', `deleta(${produto.id})`);
                 botaoApagar.innerHTML = 'APAGAR'
 
                 //inserindo um botão de UPDATE:                
@@ -138,7 +138,7 @@
             //PASSO 4: atualizando a tabela
             limpaTabela();
             getprodutos();
-            
+
             //mensagem de produto cadastrado e escondo a div
             alert('produto cadastrado');
             let div = document.getElementById('div-cadastrar');
@@ -171,42 +171,62 @@
                 div.classList.remove('div-editar-ativo');
                 div.classList.add('div-editar-inativo');
             }
-           
 
-            //filtor o vetor produtos 
-            let vetorProdutoEditar = produtos.filter(function (item) {
-                return item.id == idDoProdutoEdit;
-            });
-            let produtoEditar = vetorProdutoEditar[0];
 
-            //forma sujeita a bugs
-            //let produtoEditar = produtos[idDoProdutoEdit-1];
+            //filtrar o vetor produtos e pegar só aquele produto com aquela id
+            // let vetorProdutoEditar = produtos.filter(function (item) {
+            //     return item.id == idDoProdutoEdit;
+            // });
+            // let produtoEditar = vetorProdutoEditar[0];
+
+            //outra forma:
+            let produtoEditar = produtos[idDoProdutoEdit - 1];
+
+            //mostrar os dados nos campos
             document.getElementById('idEdit').value = produtoEditar.id;
             document.getElementById('nomeEdit').value = produtoEditar.nome;
             document.getElementById('precoEdit').value = produtoEditar.preco;
-            
+
         }
 
         function salvarAlteracao() {
+            //pegos os valores do campos
             const idInsere = document.querySelector('#idEdit').value;
             const nomeInsere = document.querySelector('#nomeEdit').value;
             const precoInsere = document.querySelector('#precoEdit').value;
 
+            //crio um objeto com aqueles valores    
             let produtoEditar = { id: idInsere, nome: nomeInsere, preco: precoInsere }
 
-
+            //utilizo o método SPLICE para subsituir o objeto no vetor
             produtos.splice(idInsere - 1, 1, produtoEditar);
 
             limpaTabela();
             getprodutos();
 
-             //mensagem de produto cadastrado e escondo a div
-             alert('produto salvo');
+            //mensagem de produto cadastrado e escondo a div
+            alert('produto salvo');
             let div = document.getElementById('div-editar');
             div.classList.remove('div-editar-ativo');
             div.classList.add('div-editar-inativo');
 
+
+        }
+
+        function deleta(idDoProdutoDelete) {
             
+            //mensagem de confirmação
+            let text = "Confirma a exclusão do registro?";
+            if (confirm(text) == true) {
+                produtos.splice(idDoProdutoDelete - 1, 1); /*exclusão*/
+                console.log(idDoProdutoDelete);
+                console.log(produtos);
+
+                limpaTabela();
+                getprodutos();
+            }
+
+
         }
     </script>
 </body>
