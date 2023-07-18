@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">  
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -27,11 +27,21 @@
         <div id="div-cadastrar" class="div-cadastrar-inativo">
             <form action="">
                 <h2>Cadastro de Produto</h2>
-                <input type="number" placeholder="Digite uma ID única" id="id" name="id">
+                <input type="text" id="id" name="id" readonly>
                 <input type="text" placeholder="Digite o nome do produto" id="nome" name="nome">
                 <input type="number" placeholder="Digite o preço" id="preco" nome" name="preco">
                 <input type="button" value="Cadastrar Produto" id="btn-inserir" name="btn-inserir"
                     onclick="cadastrar()">
+            </form>
+        </div>
+        <div id="div-editar" class="div-editar-inativo">
+            <form action="">
+                <h2>Alteração de Produto</h2>
+                <input type="text" id="idEdit" name="idEdit" readonly>
+                <input type="text" placeholder="Digite o nome do produto" id="nomeEdit" name="nomeEdit">
+                <input type="number" placeholder="Digite o preço" id="precoEdit" nome" name="precoEdit">
+                <input type="button" value="Alterar Produto" id="btn-salvar" name="btn-salvar"
+                    onclick="salvarAlteracao()">
             </form>
         </div>
     </div>
@@ -49,12 +59,24 @@
         //crio uma variável tabela para trazer o elemento table utilizando o id dela
         const tabela = document.querySelector('#tabela');
         limpaTabela();
-        getprodutos(); 
+        getprodutos();
+
+        function criaId() {
+            let ultimo = produtos.length;
+            console.log('o ultimo id cadastrado é: ' + ultimo);
+
+            proximo = ultimo + 1;
+            return proximo;
+        }
+
+        function limpaTabela() {
+            tabela.innerHTML = "<tr> <th>ID</th> <th>PRODUTO</th> <th>PREÇO</th>  <th>AÇÕES</th> </tr>";
+        }
 
         function getprodutos() {
             //loop mais externo forEach: irá percorrer os produtos
             produtos.forEach((produto) => {
-                
+
                 //cria uma linha na tabela para começar a inserir os dados do produto
                 tabela.innerHTML += `<tr id="a${produto.id}">`;
 
@@ -73,19 +95,23 @@
                 botaoApagar.innerHTML = 'APAGAR'
 
                 //inserindo um botão de UPDATE:                
-                // primeiro criamos o BOTAO, aplicamos as propriedades e depois o criamos um TD pra ele                        
+                //primeiro criamos o BOTAO, aplicamos as propriedades e depois o criamos um TD pra ele                        
                 let botaoEditar = document.createElement('button');
                 botaoEditar.setAttribute('class', 'btn-editar');
-                botaoEditar.setAttribute('onclick', 'edit({produto.id})');
+                botaoEditar.setAttribute('onclick', `mostraEditar(${produto.id})`);
                 botaoEditar.innerHTML = 'EDITAR';
 
                 //criando TDs e anexando a TR
-                let td = document.createElement('td');                
-                
-                td.appendChild(botaoEditar);
-                td.appendChild(botaoApagar);
+                let td = document.createElement('td');
 
-                tr = document.querySelector("#" + 'a' + produto.id)   ;
+                td.appendChild(botaoEditar);
+                td.appendChild(document.createTextNode("    "));
+                td.appendChild(botaoApagar);
+                td.style.minWidth = '180px';
+
+
+
+                tr = document.querySelector("#" + 'a' + produto.id);
                 tr.appendChild(td);
 
                 //fecha a linha da tabela
@@ -94,12 +120,12 @@
         }
 
         function cadastrar() {
-            //PASSO 1: pegando as informações que o usuario digitou e colocando em variaveis
+            //PASSO 1: pegando as informações que o usuario digitou e colocando em variaveis            
             const idInsere = document.querySelector('#id').value;
             const nomeInsere = document.querySelector('#nome').value;
             const precoInsere = document.querySelector('#preco').value;
 
-            //PASSO 2: criando um objeto produto 
+            //PASSO 2: criando um novo objeto produto 
             let produto = {
                 id: idInsere,
                 nome: nomeInsere,
@@ -109,33 +135,15 @@
             //PASSO 3: inserindo o objeto PRODUTO no vetor PRODUTOS
             produtos.push(produto);
 
-            //PASSO4: inserindo os elementos na tabela com INNERHTML
-            // tabela.innerHTML += `<tr id="a${produto.id}">`;
-            // document.getElementById('a' + produto.id).innerHTML += `<td> ${produto.id} </td>`;
-            // document.querySelector("#" + 'a' + produto.id).innerHTML += `<td> ${produto.nome} </td>`;
-            // document.querySelector("#" + 'a' + produto.id).innerHTML += `<td> ${produto.preco} </td>`;
-            // tabela.innerHTML += "</tr>";
-
-            //PASSO4: inserindo os elementos na tabela com APPENDCHILDS
-            // let tr = document.createElement('tr');
-            // tr.setAttribute('id', `a${produto.id}`);
-
-            // let td1 = document.createElement('td');
-            // let td2 = document.createElement('td');
-            // let td3 = document.createElement('td');
-
-            // td1.innerHTML = produto.id;
-            // td2.innerHTML = produto.nome;
-            // td3.innerHTML = produto.preco;
-
-            // tr.appendChild(td1);
-            // tr.appendChild(td2);
-            // tr.appendChild(td3);
-
-            // tabela.appendChild(tr);
+            //PASSO 4: atualizando a tabela
             limpaTabela();
-            getprodutos();    
-
+            getprodutos();
+            
+            //mensagem de produto cadastrado e escondo a div
+            alert('produto cadastrado');
+            let div = document.getElementById('div-cadastrar');
+            div.classList.remove('div-cadastrar-ativo');
+            div.classList.add('div-cadastrar-inativo');
         }
 
         function mostraCadastro() {
@@ -148,14 +156,58 @@
                 div.classList.remove('div-cadastrar-ativo');
                 div.classList.add('div-cadastrar-inativo');
             }
-
+            document.getElementById('id').value = criaId();
+            document.getElementById('nome').value = '';
+            document.getElementById('preco').value = '';
         }
 
-        function limpaTabela() {         
+        function mostraEditar(idDoProdutoEdit) {
+            const div = document.getElementById('div-editar');
+            if (div.classList.contains('div-editar-inativo')) {
+                div.classList.remove('div-editar-inativo');
+                div.classList.add('div-editar-ativo');
+            }
+            else {
+                div.classList.remove('div-editar-ativo');
+                div.classList.add('div-editar-inativo');
+            }
+           
 
-             tabela.innerHTML = "<tr> <th>ID</th> <th>PRODUTO</th> <th>PREÇO</th>  <th>AÇÕES</th> </tr>" ;
+            //filtor o vetor produtos 
+            let vetorProdutoEditar = produtos.filter(function (item) {
+                return item.id == idDoProdutoEdit;
+            });
+            let produtoEditar = vetorProdutoEditar[0];
+
+            //forma sujeita a bugs
+            //let produtoEditar = produtos[idDoProdutoEdit-1];
+            document.getElementById('idEdit').value = produtoEditar.id;
+            document.getElementById('nomeEdit').value = produtoEditar.nome;
+            document.getElementById('precoEdit').value = produtoEditar.preco;
+            
         }
 
+        function salvarAlteracao() {
+            const idInsere = document.querySelector('#idEdit').value;
+            const nomeInsere = document.querySelector('#nomeEdit').value;
+            const precoInsere = document.querySelector('#precoEdit').value;
+
+            let produtoEditar = { id: idInsere, nome: nomeInsere, preco: precoInsere }
+
+
+            produtos.splice(idInsere - 1, 1, produtoEditar);
+
+            limpaTabela();
+            getprodutos();
+
+             //mensagem de produto cadastrado e escondo a div
+             alert('produto salvo');
+            let div = document.getElementById('div-editar');
+            div.classList.remove('div-editar-ativo');
+            div.classList.add('div-editar-inativo');
+
+            
+        }
     </script>
 </body>
 
