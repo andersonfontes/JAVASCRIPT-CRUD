@@ -91,9 +91,8 @@
                     //irá inserir na tabela cada um dos valores de cada uma das propriedades daquele produto
                     document.querySelector("#" + 'a' + produto.id).innerHTML += `<td> ${produto[propriedade]} </td>`;
                 }
-                //inserindo um botão de DELETE
-                let btnDeletar = `<td><button class=btn-apagar" onclick="deleta({produto.id})">APAGAR</td>`
 
+                //inserindo um botão de DELETE                
                 //primeiro criamos o BOTAO, aplicamos as propriedades e depois o criamos um TD pra ele                        
                 let botaoApagar = document.createElement('button');
                 botaoApagar.setAttribute('class', 'btn-apagar');
