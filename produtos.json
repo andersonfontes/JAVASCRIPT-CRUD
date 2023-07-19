@@ -1,0 +1,5 @@
+[
+    {   "id":1 , "nome": "sapato", "preco": 100.00 } ,
+    {   "id":2 , "nome": "sandalia", "preco": 250.00 },
+    {   "id":3 , "nome": "cinto", "preco": 450.00}
+]

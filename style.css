@@ -139,7 +139,7 @@ input {
     cursor: pointer;
 }
 
-#btn-inserir:active, ##btn-salvar:active{
+#btn-inserir:active, #btn-salvar:active{
     background-color: rgb(104, 104, 222);
     color: white;
 }
