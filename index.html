@@ -42,7 +42,6 @@
                 { id: 2, nome: 'sandalia', preco: 250.00 },
                 { id: 3, nome: 'cinto', preco: 450.00 },
                 { id: 4, nome: 'bolsa', preco: 650.00 }
-
             ]
 
         //crio uma variável tabela para trazer o elemento table utilizando o id dela
@@ -67,16 +66,16 @@
 
                 //inserindo um botão de DELETE                
                 //primeiro criamos o BOTAO, aplicamos as propriedades e depois o criamos um TD pra ele                        
-                let botaoApagar = document.createElement('button');
-                botaoApagar.setAttribute('class', 'btn-apagar');
-                botaoApagar.setAttribute('onclick', 'deleta({produto.id})');
-                botaoApagar.innerHTML = 'APAGAR'
+                let botaoApagar = document.createElement('button'); /*crio botão*/
+                botaoApagar.setAttribute('class', 'btn-apagar'); /*crio atributo classe p/ estilo css*/
+                botaoApagar.setAttribute('onclick', `deleta(${produto.id})`); /*crio atributo id p/ passar como parâmetro*/
+                botaoApagar.innerHTML = 'APAGAR' /*crio o texto do botão*/
 
                 //inserindo um botão de UPDATE:                
                 // primeiro criamos o BOTAO, aplicamos as propriedades e depois o criamos um TD pra ele                        
                 let botaoEditar = document.createElement('button');
                 botaoEditar.setAttribute('class', 'btn-editar');
-                botaoEditar.setAttribute('onclick', 'edit({produto.id})');
+                botaoEditar.setAttribute('onclick', `edit(${produto.id})`);
                 botaoEditar.innerHTML = 'EDITAR';
 
                 //criando TDs e anexando a TR
@@ -115,30 +114,7 @@
             limpaTabela();
             getprodutos();  
 
-            //PASSO4: inserindo os elementos na tabela com INNERHTML
-            // tabela.innerHTML += `<tr id="a${produto.id}">`;
-            // document.getElementById('a' + produto.id).innerHTML += `<td> ${produto.id} </td>`;
-            // document.querySelector("#" + 'a' + produto.id).innerHTML += `<td> ${produto.nome} </td>`;
-            // document.querySelector("#" + 'a' + produto.id).innerHTML += `<td> ${produto.preco} </td>`;
-            // tabela.innerHTML += "</tr>";
-
-            //PASSO4: inserindo os elementos na tabela com APPENDCHILDS
-            // let tr = document.createElement('tr');
-            // tr.setAttribute('id', `a${produto.id}`);
-
-            // let td1 = document.createElement('td');
-            // let td2 = document.createElement('td');
-            // let td3 = document.createElement('td');
-
-            // td1.innerHTML = produto.id;
-            // td2.innerHTML = produto.nome;
-            // td3.innerHTML = produto.preco;
-
-            // tr.appendChild(td1);
-            // tr.appendChild(td2);
-            // tr.appendChild(td3);
-
-            // tabela.appendChild(tr);           
+                 
         }
 
         function mostraCadastro() {
@@ -160,12 +136,15 @@
              tabela.innerHTML = "<tr> <th>ID</th> <th>PRODUTO</th> <th>PREÇO</th>  <th>AÇÕES</th> </tr>" ;
         }
 
-        function deleta(idDoProdutoDelete){
+        function deleta(idDoProdutoDelete){ /*arrow function-função seta*/
             let obj = produtos.find(prod => prod.id == idDoProdutoDelete);
             let indexDeletar = produtos.indexOf(obj);
+
             produtos.splice(indexDeletar, 1);
-            console.log(obj,  ' ', indexDeletar);
-            limpatabela();
-            getprodutos();            
+            
+            limpaTabela();
+            getprodutos();         
         }
+
+        
 </script></body></html>
