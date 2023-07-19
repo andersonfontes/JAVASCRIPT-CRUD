@@ -65,6 +65,7 @@
 
         function criaId() {
             //esta função irá criar um ID único
+            //utilizo SLICE para determinar o id do ultimo produto que existe na base e adiciono 1
             let ultimo = produtos.slice(-1)[0].id;
             console.log('o ultimo id cadastrado é: ' + ultimo);
 
@@ -126,13 +127,13 @@
             //esta funçãorealiza a inserção de um novo cadastro no objeto PRODUTOS
 
             //PASSO 1: pegando as informações que o usuario digitou e colocando em variaveis            
-            const idInsere = document.querySelector('#id').value;
+            const idInsere = parseInt(document.querySelector('#id').value);
             const nomeInsere = document.querySelector('#nome').value;
-            const precoInsere = document.querySelector('#preco').value;
+            const precoInsere = parseInt(document.querySelector('#preco').value);
 
             //PASSO 2: criando um novo objeto produto 
             let produto = {
-                id: parseInt(idInsere),
+                id: idInsere,
                 nome: nomeInsere,
                 preco: precoInsere
             }
@@ -212,20 +213,25 @@
 
         function salvarAlteracao() {
             //pegos os valores do campos
-            const idInsere = parseInt(document.querySelector('#idEdit').value);
-            const nomeInsere = document.querySelector('#nomeEdit').value;
-            const precoInsere = document.querySelector('#precoEdit').value;
+            const idEditar = parseInt(document.querySelector('#idEdit').value);
+            const nomeEditar = document.querySelector('#nomeEdit').value;
+            const precoEditar = parseInt(document.querySelector('#precoEdit').value);
 
             //crio um objeto com aqueles valores    
-            let produtoEditar = { id: idInsere, nome: nomeInsere, preco: precoInsere }
+            let produtoEditar = { id: idEditar, nome: nomeEditar, preco: precoEditar }
 
-            //utilizo o método SPLICE para subsituir o objeto no vetor
-            produtos.splice(idInsere - 1, 1, produtoEditar);
+            //trazendo o objeto e descobrindo o seu INDEX índice do vetor - usando FIND e INDEXOF
+            let obj = produtos.find(prod => prod.id == idEditar);
+            let indexEditar = produtos.indexOf(obj);
+
+
+            //utilizo o método SPLICE para substituir o objeto no vetor
+            produtos.splice(indexEditar, 1, produtoEditar);
 
             limpaTabela();
             getprodutos();
 
-            //mensagem de produto cadastrado e escondo a div
+            //mensagem de produto salvo e escondo a div
             alert('produto salvo');
             let div = document.getElementById('div-editar');
             div.classList.remove('div-editar-ativo');
@@ -237,7 +243,7 @@
             //mensagem de confirmação
             let text = "Confirma a exclusão do registro?";
             if (confirm(text) == true) {
-                
+                //trazendo o objeto e descobrindo o seu INDEX 9índice do vetor
                 let obj = produtos.find(prod => prod.id == idDoProdutoDelete);
                 let indexDeletar = produtos.indexOf(obj);
 
