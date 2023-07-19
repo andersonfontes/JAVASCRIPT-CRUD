@@ -69,14 +69,14 @@
                 //primeiro criamos o BOTAO, aplicamos as propriedades e depois o criamos um TD pra ele                        
                 let botaoApagar = document.createElement('button');
                 botaoApagar.setAttribute('class', 'btn-apagar');
-                botaoApagar.setAttribute('onclick', 'deleta({produto.id})');
-                botaoApagar.innerHTML = 'APAGAR'
+                botaoApagar.setAttribute('onclick', `deleta(${produto.id})`);
+                botaoApagar.innerHTML = 'APAGAR';
 
                 //inserindo um botão de UPDATE:                
                 // primeiro criamos o BOTAO, aplicamos as propriedades e depois o criamos um TD pra ele                        
                 let botaoEditar = document.createElement('button');
                 botaoEditar.setAttribute('class', 'btn-editar');
-                botaoEditar.setAttribute('onclick', 'edit({produto.id})');
+                botaoEditar.setAttribute('onclick', `edit(${produto.id})`);
                 botaoEditar.innerHTML = 'EDITAR';
 
                 //criando TDs e anexando a TR
@@ -164,8 +164,12 @@
             let obj = produtos.find(prod => prod.id == idDoProdutoDelete);
             let indexDeletar = produtos.indexOf(obj);
             produtos.splice(indexDeletar, 1);
+
             console.log(obj,  ' ', indexDeletar);
+
             limpatabela();
             getprodutos();            
         }
+
+        
 </script></body></html>
