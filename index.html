@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script src="crud-dao.js" defer></script>
-
-
+    <!-- <script type="text/javascript" src="produtos.json" ></script> -->
+    <!-- <script type="text/javascript" src="leitor-json.js" ></script> -->
+    <script type="text/javascript" src="crud-dao.js" defer></script>
+    
 </head>
 
 <body>
@@ -49,8 +50,14 @@
     </div>
 
     <script>    
-    
-      </script>
+fetch("produtos.json").then(response => {
+  console.log(response)});
+//   .then((produtos) => {
+//     console.log(produtos);
+//   });
+
+
+    </script>
 </body>
 
 </html>
