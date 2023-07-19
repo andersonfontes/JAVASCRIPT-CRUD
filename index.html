@@ -188,7 +188,6 @@
                 div.classList.add('div-editar-inativo');
             }
 
-
             //filtrar o vetor produtos e pegar só aquele produto com aquela id
             let vetorProdutoEditar = produtos.filter(function (item) {
                 return item.id == idDoProdutoEdit;
@@ -235,11 +234,17 @@
         }
 
         function deleta(idDoProdutoDelete) {
-            
+
             //mensagem de confirmação
             let text = "Confirma a exclusão do registro?";
             if (confirm(text) == true) {
-                produtos.splice(idDoProdutoDelete - 1, 1); /*exclusão*/
+                
+                let obj = produtos.find(prod => prod.id == idDoProdutoDelete);
+                let indexDeletar = produtos.indexOf(obj);
+
+                console.log("o obj é: " + produtos.indexOf(obj));
+
+                produtos.splice(indexDeletar, 1); /*exclusão*/
                 console.log(idDoProdutoDelete);
                 console.log(produtos);
 
