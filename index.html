@@ -68,7 +68,7 @@
                 //primeiro criamos o BOTAO, aplicamos as propriedades e depois o criamos um TD pra ele                        
                 let botaoApagar = document.createElement('button'); /*crio botão*/
                 botaoApagar.setAttribute('class', 'btn-apagar'); /*crio atributo classe p/ estilo css*/
-                botaoApagar.setAttribute('onclick', `deleta(${produto.id})`); /*crio atributo id p/ passar como parâmetro*/
+                botaoApagar.setAttribute('onclick', `deleta(${produto.id})`); /*crio evento click passando id como parâmetro
                 botaoApagar.innerHTML = 'APAGAR' /*crio o texto do botão*/
 
                 //inserindo um botão de UPDATE:                
