@@ -106,7 +106,7 @@ function mostraCadastro() {
         divEditar.classList.add('div-editar-inativo');
     }
 
-    document.getElementById('id').value = criaId();
+    document.getElementById('id').value = criaId(); 
     document.getElementById('nome').value = '';
     document.getElementById('preco').value = '';
 
@@ -136,10 +136,11 @@ function deleta(idDoProdutoDelete) { /*arrow function-função seta*/
 }
 
 function mostraEditar(idDoProdutoEdit) {
+    //mostra ou oculta a tela de edição quando o usuário clica no botão EDITAR   (alterna)
+
     const div = document.getElementById('div-editar');
     const divCadastro = document.getElementById('div-cadastrar');
-
-    //mostra ou oculta a tela de edição quando o usuário clica no botão EDITAR   (alterna)
+    
     if (div.classList.contains('div-editar-inativo')) {
         div.classList.remove('div-editar-inativo');
         div.classList.add('div-editar-ativo');
@@ -160,7 +161,6 @@ function mostraEditar(idDoProdutoEdit) {
     document.getElementById('idEdit').value = obj.id;
     document.getElementById('nomeEdit').value = obj.nome;
     document.getElementById('precoEdit').value = obj.preco;
-
 }
 
 function salvarAlteracao() {
@@ -193,10 +193,16 @@ function salvarAlteracao() {
 }
 
 function criaId() {
+
+    //uso o SLICE para criar um novo vetor que começa a partir do índice passa no parâmetro
+    //no caso, o parâmetro -1 sempre irá trazer o ultimo elemento do array
+
     let vetorCorte = produtos.slice(-1);
 
+    //será um vetor de um elemento, entao eu pego o valor da proriedade .id do primeiro elemento [0]
     let ultimoElemento = vetorCorte[0].id;
 
+    //retorno este numero incrementado de 1
     let proximo = parseInt(ultimoElemento + 1);
 
     return proximo;
