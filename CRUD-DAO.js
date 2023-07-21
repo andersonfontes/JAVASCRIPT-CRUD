@@ -118,6 +118,7 @@ function mostraEditar(idDoProdutoEdit) {
 
     //mostra ou oculta a tela de edição quando o usuário clica no botão EDITAR
     const div = document.getElementById('div-editar');
+    const divCadastro = document.getElementById('div-cadastrar');
     
     if (div.classList.contains('div-editar-inativo')) {
         div.classList.remove('div-editar-inativo');
@@ -128,7 +129,10 @@ function mostraEditar(idDoProdutoEdit) {
         div.classList.add('div-editar-inativo');
     }
 
-
+    if(divCadastro.classList.contains('div-cadastrar-ativo')){
+        divCadastro.classList.remove('div-cadastrar.ativo');
+        divCadastro.classList.add('div-cadastrar-inativo');
+    }
 
 }
 
