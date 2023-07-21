@@ -127,7 +127,7 @@ input {
     margin: 0.3em 0;
 }
 
-#btn-inserir, #btn-editar{
+#btn-inserir, #btn-salvar{
     background-color: rgb(60, 60, 248);
     color: white;
 }

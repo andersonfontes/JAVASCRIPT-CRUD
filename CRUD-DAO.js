@@ -45,6 +45,7 @@ function getprodutos() {
         let td = document.createElement('td');
 
         td.appendChild(botaoEditar);
+        td.appendChild(document.createTextNode("     "));
         td.appendChild(botaoApagar);
 
         tr = document.querySelector("#" + 'a' + produto.id);
@@ -59,9 +60,9 @@ function cadastrar() {
     //Esta função irá cadastrar um novo produto no array de produtos
 
     //PASSO 1: pegando as informações que o usuario digitou e colocando em variaveis
-    const idInsere = document.getElementById('id').value;
+    const idInsere = parseInt(document.getElementById('id').value);
     const nomeInsere = document.querySelector('#nome').value;
-    const precoInsere = document.querySelector('#preco').value;
+    const precoInsere = parseInt(document.querySelector('#preco').value);
 
     //PASSO 2: criando um objeto produto 
     let produto = {
@@ -77,12 +78,20 @@ function cadastrar() {
     limpaTabela();
     getprodutos();
 
+    //mensagem de alteração salva e escondo a div
+    alert('PRODUTO CADASTRADO COM SUCESSO');
+    div = document.getElementById('div-cadastrar');
+    div.classList.remove('div-cadastrar-ativo');
+    div.classList.add('div-cadastrar-inativo');
+
 
 }
 
 function mostraCadastro() {
-    //mostra ou oculta a tela de cadastro quando o usuário clica no botão abaixo da tabela
+    //mostra ou oculta a tela de cadastro quando o usuário clica no botão abaixo da tabela INSERIR PRODUTO
     const div = document.getElementById('div-cadastrar');
+    const divEditar = document.getElementById('div-editar');
+
     if (div.classList.contains('div-cadastrar-inativo')) {
         div.classList.remove('div-cadastrar-inativo');
         div.classList.add('div-cadastrar-ativo');
@@ -91,12 +100,16 @@ function mostraCadastro() {
         div.classList.remove('div-cadastrar-ativo');
         div.classList.add('div-cadastrar-inativo');
     }
+    //esconde a tela editar caso ela esteja visível
+    if(divEditar.classList.contains('div-editar-ativo')){
+        divEditar.classList.remove('div-editar-ativo');
+        divEditar.classList.add('div-editar-inativo');
+    }
+   
+    document.getElementById('id').value = criaId();
+    document.getElementById('nome').value = '';
+    document.getElementById('preco').value = '';
 
-    /*outra forma:*/
-    // if(div.style.display == 'none') 
-    //     div.style.display = 'block';
-    // else
-    //     div.style.display = 'none' ;
 }
 
 function limpaTabela() {
@@ -115,11 +128,10 @@ function deleta(idDoProdutoDelete) { /*arrow function-função seta*/
 }
 
 function mostraEditar(idDoProdutoEdit) {
-
-    //mostra ou oculta a tela de edição quando o usuário clica no botão EDITAR
     const div = document.getElementById('div-editar');
     const divCadastro = document.getElementById('div-cadastrar');
     
+    //mostra ou oculta a tela de edição quando o usuário clica no botão EDITAR   (alterna)
     if (div.classList.contains('div-editar-inativo')) {
         div.classList.remove('div-editar-inativo');
         div.classList.add('div-editar-ativo');
@@ -129,10 +141,56 @@ function mostraEditar(idDoProdutoEdit) {
         div.classList.add('div-editar-inativo');
     }
 
+    //esconde a tela de cadastro caso esteja visível
     if(divCadastro.classList.contains('div-cadastrar-ativo')){
-        divCadastro.classList.remove('div-cadastrar.ativo');
+        divCadastro.classList.remove('div-cadastrar-ativo');
         divCadastro.classList.add('div-cadastrar-inativo');
     }
 
+    //traz os dados daquele objeto para edição
+    let obj = produtos.find(prod => prod.id == idDoProdutoEdit);
+    document.getElementById('idEdit').value = obj.id;
+    document.getElementById('nomeEdit').value = obj.nome;
+    document.getElementById('precoEdit').value = obj.preco;
+
+}
+
+function salvarAlteracao(){
+    //pega os valores dos campos
+    const idEditar = parseInt(document.getElementById('idEdit').value);
+    const nomeEditar = document.getElementById('nomeEdit').value;
+    const precoEditar = parseInt(document.getElementById('precoEdit').value);
+
+    //crio um objeto com esses valores
+    let objNovo = { id: idEditar , nome: nomeEditar , preco: precoEditar };
+
+    //encontrar o objeto antigo a ser substituído no vetor
+    let objAntigo = produtos.find(prod => prod.id == idEditar);
+
+    //buscar o indice do objeto antigo no vetor
+    let indexEditar = produtos.indexOf(objAntigo);
+
+    //utilizo o método SPLICE para substituir o objeto no vetor
+    produtos.splice(indexEditar, 1, objNovo);
+
+    //atualizo a listagem
+    limpaTabela();
+    getprodutos();
+
+    //mensagem de alteração salva e escondo a div
+    alert('ALTERAÇÕES SALVAS');
+    div = document.getElementById('div-editar');
+    div.classList.remove('div-editar-ativo');
+    div.classList.add('div-editar-inativo');
+}
+
+function criaId(){
+    let vetorCorte = produtos.slice(-1);
+
+    let ultimoElemento = vetorCorte[0].id;
+
+    let proximo = parseInt(ultimoElemento + 1);
+
+    return proximo;
 }
 
