@@ -101,11 +101,11 @@ function mostraCadastro() {
         div.classList.add('div-cadastrar-inativo');
     }
     //esconde a tela editar caso ela esteja visível
-    if(divEditar.classList.contains('div-editar-ativo')){
+    if (divEditar.classList.contains('div-editar-ativo')) {
         divEditar.classList.remove('div-editar-ativo');
         divEditar.classList.add('div-editar-inativo');
     }
-   
+
     document.getElementById('id').value = criaId();
     document.getElementById('nome').value = '';
     document.getElementById('preco').value = '';
@@ -118,19 +118,27 @@ function limpaTabela() {
 }
 
 function deleta(idDoProdutoDelete) { /*arrow function-função seta*/
-    let obj = produtos.find(prod => prod.id == idDoProdutoDelete);
-    let indexDeletar = produtos.indexOf(obj);
+    let textConfirmacao = `CONFIRMA A EXCLUSÃO DO REGISTRO? 
+                        ESTA AÇÃO NÃO PODE SER DESFEITA`;
 
-    produtos.splice(indexDeletar, 1);
+    if (confirm(textConfirmacao) == true) {
 
-    limpaTabela();
-    getprodutos();
+        let obj = produtos.find(prod => prod.id == idDoProdutoDelete);
+        let indexDeletar = produtos.indexOf(obj);
+
+        produtos.splice(indexDeletar, 1);
+
+        limpaTabela();
+        getprodutos();
+    } else {
+        alert('OPERAÇÃO CANCELADA - NÃO HOUVE ALTERAÇÕES');
+    }
 }
 
 function mostraEditar(idDoProdutoEdit) {
     const div = document.getElementById('div-editar');
     const divCadastro = document.getElementById('div-cadastrar');
-    
+
     //mostra ou oculta a tela de edição quando o usuário clica no botão EDITAR   (alterna)
     if (div.classList.contains('div-editar-inativo')) {
         div.classList.remove('div-editar-inativo');
@@ -142,7 +150,7 @@ function mostraEditar(idDoProdutoEdit) {
     }
 
     //esconde a tela de cadastro caso esteja visível
-    if(divCadastro.classList.contains('div-cadastrar-ativo')){
+    if (divCadastro.classList.contains('div-cadastrar-ativo')) {
         divCadastro.classList.remove('div-cadastrar-ativo');
         divCadastro.classList.add('div-cadastrar-inativo');
     }
@@ -155,14 +163,14 @@ function mostraEditar(idDoProdutoEdit) {
 
 }
 
-function salvarAlteracao(){
+function salvarAlteracao() {
     //pega os valores dos campos
     const idEditar = parseInt(document.getElementById('idEdit').value);
     const nomeEditar = document.getElementById('nomeEdit').value;
     const precoEditar = parseInt(document.getElementById('precoEdit').value);
 
     //crio um objeto com esses valores
-    let objNovo = { id: idEditar , nome: nomeEditar , preco: precoEditar };
+    let objNovo = { id: idEditar, nome: nomeEditar, preco: precoEditar };
 
     //encontrar o objeto antigo a ser substituído no vetor
     let objAntigo = produtos.find(prod => prod.id == idEditar);
@@ -184,7 +192,7 @@ function salvarAlteracao(){
     div.classList.add('div-editar-inativo');
 }
 
-function criaId(){
+function criaId() {
     let vetorCorte = produtos.slice(-1);
 
     let ultimoElemento = vetorCorte[0].id;
