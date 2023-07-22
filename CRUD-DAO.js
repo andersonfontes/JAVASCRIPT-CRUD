@@ -41,12 +41,22 @@ function getprodutos() {
         botaoEditar.setAttribute('onclick', `mostraEditar(${produto.id})`);
         botaoEditar.innerHTML = 'EDITAR';
 
+        //inserindo um botão de VISUALIZAR:                
+        // primeiro criamos o BOTAO, então aplicamos as propriedades                       
+        let botaoView = document.createElement('button');
+        botaoView.setAttribute('class', 'btn-view');
+        botaoView.setAttribute('onclick', `mostraView(${produto.id})`);
+        botaoView.innerHTML = 'DETALHES';
+
         //criando TDs e anexando a TR
         let td = document.createElement('td');
 
         td.appendChild(botaoEditar);
-        td.appendChild(document.createTextNode("     "));
+        td.appendChild(document.createTextNode("   "));
         td.appendChild(botaoApagar);
+        td.appendChild(document.createTextNode("   "));
+        td.appendChild(botaoView);
+
 
         tr = document.querySelector("#" + 'a' + produto.id);
         tr.appendChild(td);
@@ -91,6 +101,7 @@ function mostraCadastro() {
     //mostra ou oculta a tela de cadastro quando o usuário clica no botão abaixo da tabela INSERIR PRODUTO
     const div = document.getElementById('div-cadastrar');
     const divEditar = document.getElementById('div-editar');
+    const divView = document.getElementById('div-view');
 
     if (div.classList.contains('div-cadastrar-inativo')) {
         div.classList.remove('div-cadastrar-inativo');
@@ -104,6 +115,12 @@ function mostraCadastro() {
     if (divEditar.classList.contains('div-editar-ativo')) {
         divEditar.classList.remove('div-editar-ativo');
         divEditar.classList.add('div-editar-inativo');
+    }
+
+    //esconde a tela de visualização caso esteja visível
+    if (divView.classList.contains('div-view-ativo')) {
+        divView.classList.remove('div-view-ativo');
+        divView.classList.add('div-view-inativo');
     }
 
     document.getElementById('id').value = criaId(); 
@@ -140,6 +157,7 @@ function mostraEditar(idDoProdutoEdit) {
 
     const div = document.getElementById('div-editar');
     const divCadastro = document.getElementById('div-cadastrar');
+    const divView = document.getElementById('div-view');
     
     if (div.classList.contains('div-editar-inativo')) {
         div.classList.remove('div-editar-inativo');
@@ -154,6 +172,12 @@ function mostraEditar(idDoProdutoEdit) {
     if (divCadastro.classList.contains('div-cadastrar-ativo')) {
         divCadastro.classList.remove('div-cadastrar-ativo');
         divCadastro.classList.add('div-cadastrar-inativo');
+    }
+
+    //esconde a tela de visualização caso esteja visível
+    if (divView.classList.contains('div-view-ativo')) {
+        divView.classList.remove('div-view-ativo');
+        divView.classList.add('div-view-inativo');
     }
 
     //traz os dados daquele objeto para edição
@@ -208,3 +232,37 @@ function criaId() {
     return proximo;
 }
 
+function mostraView(idVisualizar){
+    //mostra ou oculta a tela de VISUALIZAÇÃO quando o usuário clica no botão VISUALIZAR   (alterna)
+    const div = document.getElementById('div-view');
+    const divCadastro = document.getElementById('div-cadastrar');
+    const divEditar = document.getElementById('div-editar');
+    
+    if (div.classList.contains('div-view-inativo')) {
+        div.classList.remove('div-view-inativo');
+        div.classList.add('div-view-ativo');
+    }
+    else {
+        div.classList.remove('div-view-ativo');
+        div.classList.add('div-view-inativo');
+    }
+
+    //esconde a tela de cadastro caso esteja visível
+    if (divCadastro.classList.contains('div-cadastrar-ativo')) {
+        divCadastro.classList.remove('div-cadastrar-ativo');
+        divCadastro.classList.add('div-cadastrar-inativo');
+    }
+
+    //esconde a tela de edição caso esteja visível
+    if (divEditar.classList.contains('div-editar-ativo')) {
+        divEditar.classList.remove('div-editar-ativo');
+        divEditar.classList.add('div-editar-inativo');
+    }
+
+    //traz os dados daquele objeto para visualização
+    let obj = produtos.find(prod => prod.id == idVisualizar);
+    document.getElementById('idView').value = obj.id;
+    document.getElementById('nomeView').value = obj.nome;
+    document.getElementById('precoView').value = obj.preco;
+
+}

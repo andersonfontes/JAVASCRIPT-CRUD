@@ -55,6 +55,22 @@ h2{
     display: block;
 }
 
+.div-view-inativo{    
+    width: 40%;
+    min-width:30%;
+    text-align: center;
+    margin: 4vw;
+    display: none;
+}
+
+.div-view-ativo{    
+    width: 40%;
+    min-width:30%;
+    text-align: center;
+    margin: 4vw;
+    display: block;
+}
+
 
 
 button{
@@ -98,7 +114,7 @@ table{
 th, td, tr{
     border: 2.5px solid rgb(96, 70, 13);
     margin: 0;
-    padding: 10px 40px;
+    padding: 10px 20px;
     border-spacing: 0;
     line-height: 1.5em;
 }
@@ -111,6 +127,11 @@ th, td, tr{
 .btn-apagar{
     font-size: 0.6em;
     background-color: rgba(220, 38, 13, 0.9)
+}
+
+.btn-view{
+    font-size: 0.6em;
+    background-color: rgba(82, 75, 220, 0.9)
 }
 
 .tabela {
